@@ -2,17 +2,17 @@ CC=$(CROSS_COMPILE)gcc
 CFLAGS=-g -Wall -W -Werror -std=gnu99 $(DEFINES)
 BUSYBOX_VERSION=1.21.0
 MINISNMP_VERSION=1.2b
-DROPBEAR_VERSION=2013.58
+DROPBEAR_VERSION=2015.67
 FSNAME=initramfs-bin
 RELEASEDIR=../../images/
 BOARD=EOMA68
 
-PROGRAMS= busybox
+PROGRAMS= dropbear dropbear_install busybox
 all: $(PROGRAMS)
 
 clean: 
-	rm -rf busybox-$(BUSYBOX_VERSION)
-	rm -rf dropbear-$(DROPBEAR_VERSION)
+	rm -rf busybox-$(BUSYBOX_VERSION)*
+	rm -rf dropbear-$(DROPBEAR_VERSION)*
 	rm -rf mini_snmpd
 	rm -f $(PROGRAMS) *.o
 
@@ -69,7 +69,12 @@ dropbear-$(DROPBEAR_VERSION)/.unpacked: dropbear-$(DROPBEAR_VERSION).tar.bz2
 	touch dropbear-$(DROPBEAR_VERSION)/.unpacked
 
 dropbear-$(DROPBEAR_VERSION).tar.bz2:
-	wget https://matt.ucc.asn.au/dropbear/releases/dropbear-$(DROPBEAR_VERSION).tar.bz2:
+	wget https://matt.ucc.asn.au/dropbear/releases/dropbear-$(DROPBEAR_VERSION).tar.bz2
+
+dropbear_install:
+	cd dropbear-$(DROPBEAR_VERSION) &&  ./configure --host=arm-linux-gnueabi --prefix=/ --disable-zlib CC=$(CC) LD=arm-linux-gnueabi-ld
+	$(MAKE) -C dropbear-$(DROPBEAR_VERSION)
+	$(MAKE) -C dropbear-$(DROPBEAR_VERSION) install DESTDIR=$(shell pwd)/../$(FSNAME)/
 	
 install: $(PROGRAMS) busybox_install ../$(FSNAME)
 #	$(CROSS_COMPILE)strip -o ../$(FSNAME)/sbin/mini_snmpd mini_snmpd/mini_snmpd
