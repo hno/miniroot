@@ -1,6 +1,8 @@
-CROSS_COMPILE=/home/henrik/toolchains/arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
 ARCH=arm
 export CROSS_COMPILE ARCH
+ifndef CROSS_COMPILE
+CROSS_COMPILE=arm-linux-gnueabihf-
+endif
 ifdef KERNEL_MODULES
 KERNELRELEASE = $(shell $(MAKE) -s -C $(KERNEL_MODULES)/build CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) kernelrelease)
 else
