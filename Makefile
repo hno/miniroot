@@ -29,7 +29,7 @@ initramfs-$(KERNELRELEASE).img: initramfs-$(KERNELRELEASE).gz
 	mkimage -T ramdisk -A arm -C none -d $< initramfs-$(KERNELRELEASE).img
 
 initramfs-$(KERNELRELEASE).cpio: modules src/install
-	( cat initramfs.devnodes ; sh $(KERNEL_MODULES)/build/source/scripts/gen_initramfs_list.sh -u squash -g squash initramfs-bin/ initramfs/ modules/ ) | \
+	( cat initramfs.devnodes ; sh $(KERNEL_MODULES)/build/scripts/gen_initramfs_list.sh -u squash -g squash initramfs-bin/ initramfs/ modules/ ) | \
 	$(KERNEL_MODULES)/build/usr/gen_init_cpio - >initramfs-$(KERNELRELEASE).cpio
 
 initramfs-$(KERNELRELEASE).uImage: modules
