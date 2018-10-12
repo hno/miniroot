@@ -36,7 +36,7 @@ initramfs-$(KERNELRELEASE).uImage: modules
 	cp -p $(KERNEL_MODULES)/build/arch/arm/boot/uImage $@
 
 clean:
-	rm -rf modules initramfs-bin initramfs*.cpio initramfs*.gz initramfs*.lzo initramfs*.img
+	rm -rf modules initramfs-bin initramfs*.cpio initramfs*.gz initramfs*.lzo initramfs*.img initramfs*.uImage
 
 clean: src/clean
 
